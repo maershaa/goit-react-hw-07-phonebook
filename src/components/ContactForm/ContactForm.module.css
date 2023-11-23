@@ -1,0 +1,89 @@
+.form {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 350px;
+  background: #feac5e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4bc0c8,
+    #c779d0,
+    #feac5e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4bc0c8,
+    #c779d0,
+    #feac5e
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  border-radius: 20px; /* Скругленные углы */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Тень */
+}
+
+.formLabel {
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 8px;
+
+  margin-top: 10px;
+  margin-bottom: 10px;
+
+  color: white;
+  font-size: 18px;
+
+  width: 250px;
+}
+
+.inputText {
+  margin-top: 0;
+  margin-bottom: 12px;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 4px 10px 4px 12px;
+
+  border: 1px solid #828282;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 300;
+  height: 39px;
+  line-height: 19.2px;
+}
+
+.addButton {
+  /* Базовые стили кнопки */
+  display: block;
+  min-width: 120px;
+  height: 50px;
+  padding: 16px 32px;
+  font-size: 16px;
+  text-align: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.15);
+
+  /* Стили для цвета текста и фона */
+  color: #fff;
+  background-color: #4bc0c8;
+
+  /* Отступы */
+  margin-top: 200px;
+  margin-bottom: 10px;
+
+  /* Плавные анимации */
+  transition: transform 0.2s, background-color 0.2s;
+  /* Добавили transition для изменения цвета */
+}
+
+.addButton:hover,
+.addButton:focus {
+  transform: scale(1.1);
+  background-color: #c779d0; /* Изменение цвета при наведении и фокусе */
+}

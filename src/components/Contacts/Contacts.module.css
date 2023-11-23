@@ -1,0 +1,84 @@
+.contactsSection {
+}
+
+.contactsContainer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+
+  /* width: 400px; */
+  background: #feac5e; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #4bc0c8,
+    #c779d0,
+    #feac5e
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #4bc0c8,
+    #c779d0,
+    #feac5e
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  border-radius: 20px; /* Скругленные углы */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Тень */
+}
+
+.inputText {
+  margin-top: 0;
+
+  margin-bottom: 12px;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.contactsList {
+  color: white;
+
+  display: flex;
+  flex-direction: column;
+
+  row-gap: 8px;
+  column-gap: 8px;
+
+  color: white;
+  font-size: 18px;
+
+  list-style: none;
+  padding: 10px 30px;
+
+  width: 300px;
+  margin: 0;
+  max-height: 390px;
+  overflow-y: scroll;
+}
+
+/* ============================================== */
+/* Cnилизации полосы прокрутки (scrollbar)  */
+/* Для полосы прокрутки */
+/* Общие стили */
+::-webkit-scrollbar {
+  width: 8px; /* Ширина полосы */
+}
+
+/* Стили для трека (фоновая часть полосы) */
+::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Цвет фона трека */
+  border-radius: 4px; /* Скругление углов полосы */
+}
+
+/* Стили для полосы прокрутки */
+::-webkit-scrollbar-thumb {
+  background-color: rgba(75, 192, 200, 0.7); /* Цвет полосы прокрутки */
+  border-radius: 4px; /* Скругление углов полосы */
+}
+
+/* Стили для кнопок прокрутки (не везде поддерживается) */
+::-webkit-scrollbar-button {
+  display: none; /* Скрыть кнопки */
+}
