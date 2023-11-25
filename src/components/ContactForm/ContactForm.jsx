@@ -18,7 +18,8 @@ const ContactForm = () => {
   const contacts = useSelector(selectContacts);
 
   // Создаем уникальный идентификатор для элемента input
-  const loginInputId = nanoid();
+  const loginInputIdName = `name-${nanoid()}`;
+  const loginInputIdNumber = `number-${nanoid()}`;
 
   // Обработчик отправки формы
   const handleSubmit = evt => {
@@ -32,9 +33,9 @@ const ContactForm = () => {
     };
 
     const normalizeName = newContact.name.toLowerCase();
-    const isDuplicate = contacts.some(
-      contact => contact.name.toLowerCase() === normalizeName
-    );
+    const isDuplicate =
+      contacts &&
+      contacts.some(contact => contact.name.toLowerCase() === normalizeName);
     if (isDuplicate) {
       alert(`${newContact.name} уже есть в контактах`);
       return;
@@ -67,7 +68,7 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
-      <label htmlFor={loginInputId} className={css.formLabel}>
+      <label htmlFor={loginInputIdName} className={css.formLabel}>
         <input
           type="text"
           name="name"
@@ -78,13 +79,13 @@ const ContactForm = () => {
           required
           value={name}
           onChange={handleChange}
-          id={loginInputId}
+          id={loginInputIdName}
           className={css.inputText}
           placeholder="Name"
         />
       </label>
 
-      <label htmlFor={loginInputId} className={css.formLabel}>
+      <label htmlFor={loginInputIdNumber} className={css.formLabel}>
         <input
           type="tel"
           name="number"
@@ -93,7 +94,7 @@ const ContactForm = () => {
           required
           value={number}
           onChange={handleChange}
-          id={loginInputId}
+          id={loginInputIdNumber}
           className={css.inputText}
           placeholder="Number"
         />

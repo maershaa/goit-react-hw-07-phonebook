@@ -28,7 +28,7 @@ const contactsSlice = createSlice({
       );
     },
     filterContact(state, action) {
-      state.contacts.filter = action.payload;
+      state.contacts.filterWord = action.payload;
     },
     toggleFavourite(state, action) {
       const contactId = action.payload;
