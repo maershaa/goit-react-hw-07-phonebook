@@ -20,8 +20,10 @@ const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact(state, action) {
+      const newContact = action.payload;
+      newContact.isFavourite = false; // Новый контакт всегда начинается как не избранный
       // Добавление нового контакта в массив items
-      state.contacts.items.push(action.payload);
+      state.contacts.items.push(newContact);
       // !Можно также использовать деструктивное присваивание:
       // state.contacts.items = [...state.contacts.items, action.payload];
     },

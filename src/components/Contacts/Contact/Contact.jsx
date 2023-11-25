@@ -19,7 +19,7 @@ const Contact = ({ id, name, number }) => {
     dispatch(toggleFavourite(id));
   };
 
-  const isFavouriteSelected = isFavourite ? 'white' : 'none';
+  const isFavouriteSelected = isFavourite ? '#ffffff' : 'none';
 
   return (
     <li key={id} className={css.item}>

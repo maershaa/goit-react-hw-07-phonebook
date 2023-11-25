@@ -1,11 +1,11 @@
-// export const getContactFavouriteStatus = (state, contactId) => {
-//   const contact = state.contacts.items.find(
-//     contact => contact.id === contactId
-//   );
-//   return contact ? contact.isFavourite : false;
-// };
-
 import { createSelector } from '@reduxjs/toolkit';
+
+export const getContactFavouriteStatus = (state, contactId) => {
+  const contact = state.contactsStore.contacts.items.find(
+    contact => contact.id === contactId
+  );
+  return contact ? contact.isFavourite : false;
+};
 
 export const selectContacts = state => state.contactsStore.contacts.items;
 export const selectContactsIsLoading = state =>
