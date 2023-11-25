@@ -4,42 +4,43 @@ import Contact from 'components/Contacts/Contact/Contact';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operation';
 import {
-  selectContacts,
+  // selectContacts,
   selectContactsIsLoading,
   selectContactsError,
   // selectContactsIsFavourite,
   // selectContactsFavouriteContacts,
-  selectFilter,
+  // selectFilter,
+  selectFilteredContacts,
 } from 'redux/selectors';
 import Loader from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
 
-  const contacts = useSelector(selectContacts);
-  const filterWord = useSelector(selectFilter);
-
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
 
+  const filteredContacts = useSelector(selectFilteredContacts);
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  // Функция для фильтрации контактов в соответствии с текущим фильтром
-  const getFilteredContacts = () => {
-    console.log(filterWord);
-    if (!contacts || !contacts.length) {
-      return []; // Возвращает пустой массив, если контактов нет или contacts не определен
-    }
-    return contacts.filter(
-      ({ name, number }) =>
-        name.toLowerCase().includes(filterWord.toLowerCase().trim()) ||
-        number.toString().includes(filterWord.toLowerCase().trim())
-    );
-  };
-
-  const filteredContacts = getFilteredContacts(); // Получаем отфильтрованные контакты
+  // Функция для фильтрации контактов в соответствии с текущим фильтром +useMemo
+  //!Вместонее используем сложенный селектор в selectors.js с именем selectFilteredContacts при попощи createSelector
+  // !useMemo = createSelector
+  // const getFilteredContacts = useMemo(() => {
+  //   return () => {
+  //     console.log(filterWord);
+  //     if (!contacts || !contacts.length) {
+  //       return [];
+  //     }
+  //     return contacts.filter(
+  //       ({ name, number }) =>
+  //         name.toLowerCase().includes(filterWord.toLowerCase().trim()) ||
+  //         number.toString().includes(filterWord.toLowerCase().trim())
+  //     );
+  //   };
+  // }, [contacts, filterWord]);
 
   return (
     <div className={css.contactsContainer}>

@@ -20,9 +20,12 @@ const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact(state, action) {
+      console.log('Current state:', state); // Логируем текущее состояние
+      console.log('Payload:', action.payload); // Логируем action.payload
       // ! чего этот код не подходит?
       // state.contacts.items.push(action.payload);
       state.contacts.items = [...state.contacts.items, action.payload];
+      console.log('Updated state:', state); // Логируем обновленное состояние
     },
     deleteContact(state, action) {
       state.contacts.items = state.contacts.items.filter(
