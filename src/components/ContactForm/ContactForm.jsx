@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import css from 'components/ContactForm/ContactForm.module.css';
-import PropTypes from 'prop-types'; // npm install --save prop-types
 import { addContact } from 'redux/reducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/selectors';
@@ -105,12 +104,6 @@ const ContactForm = () => {
       </button>
     </form>
   );
-};
-
-// Указываем propTypes для name и number, чтобы определить их тип
-ContactForm.propTypes = {
-  name: PropTypes.string,
-  number: PropTypes.string,
 };
 
 export default ContactForm;

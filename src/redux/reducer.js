@@ -20,7 +20,9 @@ const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact(state, action) {
-      state.contacts.items.push(action.payload);
+      // ! чего этот код не подходит?
+      // state.contacts.items.push(action.payload);
+      state.contacts.items = [...state.contacts.items, action.payload];
     },
     deleteContact(state, action) {
       state.contacts.items = state.contacts.items.filter(

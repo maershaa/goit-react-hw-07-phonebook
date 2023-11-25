@@ -11,6 +11,7 @@ import {
   // selectContactsFavouriteContacts,
   selectFilter,
 } from 'redux/selectors';
+import Loader from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
@@ -25,14 +26,6 @@ export const ContactsList = () => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
-  if (isLoading) {
-    return <b>Loading tasks...</b>;
-  }
-
-  if (error) {
-    return <b>{error}</b>;
-  }
-
   // Функция для фильтрации контактов в соответствии с текущим фильтром
   const getFilteredContacts = () => {
     console.log(filterWord);
@@ -46,18 +39,17 @@ export const ContactsList = () => {
     );
   };
 
-  if (isLoading) {
-    return <b>Loading tasks...</b>;
-  }
-
-  if (error) {
-    return <b>{error}</b>;
-  }
-
   const filteredContacts = getFilteredContacts(); // Получаем отфильтрованные контакты
 
   return (
     <div className={css.contactsContainer}>
+      {error !== null && (
+        <p className="errorBadge">
+          Oops, some error occurred... No contacts found. {error}
+        </p>
+      )}
+
+      {isLoading && <Loader />}
       <ul className={css.contactsList}>
         {filteredContacts.map(contact => (
           <Contact
