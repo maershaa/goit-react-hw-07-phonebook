@@ -39,8 +39,10 @@ export const ContactsList = () => {
     if (!contacts || !contacts.length) {
       return []; // Возвращает пустой массив, если контактов нет или contacts не определен
     }
-    return contacts.filter(contact =>
-      contact.name.toLowerCase().includes(filterWord.toLowerCase().trim())
+    return contacts.filter(
+      ({ name, number }) =>
+        name.toLowerCase().includes(filterWord.toLowerCase().trim()) ||
+        number.toString().includes(filterWord.toLowerCase().trim())
     );
   };
 
