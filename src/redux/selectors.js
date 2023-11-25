@@ -1,7 +1,16 @@
-export const getContacts = state => state.contacts;
-export const getContactFavouriteStatus = (state, contactId) => {
-  const contact = state.contactsStore.contacts.find(
-    contact => contact.id === contactId
-  );
-  return contact ? contact.isFavourite : false;
-};
+// export const getContactFavouriteStatus = (state, contactId) => {
+//   const contact = state.contacts.items.find(
+//     contact => contact.id === contactId
+//   );
+//   return contact ? contact.isFavourite : false;
+// };
+
+export const selectContacts = state => state.contactsStore.contacts.items;
+export const selectContactsIsLoading = state =>
+  state.contactsStore.contacts.isLoading;
+export const selectContactsError = state => state.contactsStore.contacts.error;
+export const selectContactsIsFavourite = state =>
+  state.contactsStore.contacts.isFavourite;
+export const selectContactsFavouriteContacts = state =>
+  state.contactsStore.contacts.favouriteContacts;
+export const selectFilter = state => state.contactsStore.filterWord;

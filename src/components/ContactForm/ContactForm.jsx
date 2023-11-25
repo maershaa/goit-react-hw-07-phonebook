@@ -4,16 +4,18 @@ import css from 'components/ContactForm/ContactForm.module.css';
 import PropTypes from 'prop-types'; // npm install --save prop-types
 import { addContact } from 'redux/reducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { selectContacts } from 'redux/selectors';
 
 const ContactForm = () => {
   // Используем useState для управления состоянием полей name и number
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-  // Получение контактов и фильтра из хранилища Redux
-  const contacts = useSelector(state => state.contactsStore.contacts);
 
   // Получение функции dispatch для отправки действий в Redux Store
   const dispatch = useDispatch();
+
+  // Получение контактов и фильтра из хранилища Redux
+  const contacts = useSelector(selectContacts);
 
   // Создаем уникальный идентификатор для элемента input
   const loginInputId = nanoid();

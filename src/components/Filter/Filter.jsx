@@ -2,10 +2,11 @@ import React from 'react';
 import css from 'components/Filter/Filter.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { filterContact } from 'redux/reducer';
+import { selectFilter } from 'redux/selectors';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filter = useSelector(state => state.contactsStore.filter);
+  const filterWord = useSelector(selectFilter);
 
   const handleFilterChange = e => {
     const newFilterValue = e.target.value;
@@ -16,7 +17,7 @@ const Filter = () => {
     <input
       type="text"
       name="nameFilter"
-      value={filter}
+      value={filterWord}
       pattern={"^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"}
       onChange={handleFilterChange}
       placeholder="Search by name"

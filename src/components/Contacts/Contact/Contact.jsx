@@ -1,31 +1,25 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import css from 'components/Contacts/Contact/Contact.module.css';
 import { toggleFavourite } from 'redux/actions';
-import { getContactFavouriteStatus } from 'redux/selectors';
 import { deleteContact } from 'redux/reducer';
+import { selectContactsIsFavourite } from 'redux/selectors';
 
 const Contact = ({ id, name, number }) => {
-  const dispatch = useDispatch(); // Получение функции dispatch из React Redux
+  const dispatch = useDispatch();
   const isFavourite = useSelector(state =>
-    getContactFavouriteStatus(state, id)
-  ); // Получение статуса "избранности" контакта из хранилища Redux
+    selectContactsIsFavourite(state, id)
+  );
 
-  const [isActive, setIsActive] = useState(isFavourite); // Инициализация локального состояния isActive на основе статуса "избранности" контакта
-
-  // Функция для удаления контакта по его ID
   const handleDeleteContact = contactId => {
-    // Отправка действия для удаления контакта с помощью Redux Toolkit
-    dispatch(deleteContact(contactId)); // Действие deleteContact вызывается для удаления контакта по его ID
+    dispatch(deleteContact(contactId));
   };
 
-  // Функция для переключения статуса "избранности" контакта
   const handleToggleFavourite = () => {
-    dispatch(toggleFavourite(id)); // Вызов действия toggleFavourite для изменения статуса "избранности" контакта в хранилище
-    setIsActive(!isActive); // Инверсия локального состояния isActive для обновления внешнего вида иконки "избранности"
+    dispatch(toggleFavourite(id));
   };
 
-  const isFavouriteSelected = isActive ? 'white' : 'none'; // Условие выбора значения для fill в зависимости от isActive
+  const isFavouriteSelected = isFavourite ? 'white' : 'none';
 
   return (
     <li key={id} className={css.item}>
