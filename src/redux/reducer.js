@@ -1,6 +1,6 @@
 // ! ПРИМЕР Redux Toolkit
-import { createSlice } from '@reduxjs/toolkit';
-import { fetchContacts } from 'redux/operation';
+import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { fetchContacts, fetchAddContact } from 'redux/operation';
 
 // Начальное состояние хранилища
 const initialState = {
@@ -20,12 +20,9 @@ const contactsSlice = createSlice({
   initialState,
   reducers: {
     addContact(state, action) {
-      console.log('Current state:', state); // Логируем текущее состояние
-      console.log('Payload:', action.payload); // Логируем action.payload
-      // ! чего этот код не подходит?
+      // ! подходят оба варианта
       state.contacts.items.push(action.payload);
       // state.contacts.items = [...state.contacts.items, action.payload];
-      console.log('Updated state:', state); // Логируем обновленное состояние
     },
     deleteContact(state, action) {
       state.contacts.items = state.contacts.items.filter(
@@ -64,18 +61,29 @@ const contactsSlice = createSlice({
     },
   },
   extraReducers: builder => {
-    builder.addCase(fetchContacts.pending, state => {
-      state.contacts.isLoading = true;
-    });
-    builder.addCase(fetchContacts.fulfilled, (state, action) => {
-      state.contacts.isLoading = false;
-      state.contacts.error = null;
-      state.contacts.items = action.payload;
-    });
-    builder.addCase(fetchContacts.rejected, (state, action) => {
-      state.contacts.isLoading = false;
-      state.contacts.error = action.payload;
-    });
+    builder
+      .addCase(fetchContacts.fulfilled, (state, action) => {
+        state.contacts.isLoading = false;
+        state.contacts.items = action.payload;
+      })
+      .addCase(fetchAddContact.fulfilled, (state, action) => {
+        state.contacts.isLoading = false;
+        state.contacts.items = action.payload;
+      })
+      .addMatcher(
+        isAnyOf(fetchContacts.pending, fetchAddContact.pending),
+        state => {
+          state.contacts.isLoading = true;
+          state.contacts.error = null;
+        }
+      )
+      .addMatcher(
+        isAnyOf(fetchContacts.rejected, fetchAddContact.rejected),
+        (state, { payload }) => {
+          state.isLoading = false;
+          state.error = payload;
+        }
+      );
   },
 });
 

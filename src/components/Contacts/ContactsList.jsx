@@ -58,7 +58,7 @@ export const ContactsList = () => {
             key={contact.id}
             id={contact.id}
             name={contact.name}
-            number={contact.number}
+            number={contact.phone}
           />
         ))}
       </ul>

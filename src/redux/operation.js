@@ -19,3 +19,17 @@ export const fetchContacts = createAsyncThunk(
     }
   }
 );
+
+export const fetchAddContact = createAsyncThunk(
+  'contacts/addContact',
+  // Використовуємо символ підкреслення як ім'я першого параметра,
+  // тому що в цій операції він нам не потрібен
+  async (contactData, thunkAPI) => {
+    try {
+      const response = await axios.post('/contacts', contactData);
+      return response.data;
+    } catch (e) {
+      return thunkAPI.rejectWithValue(e.message);
+    }
+  }
+);
