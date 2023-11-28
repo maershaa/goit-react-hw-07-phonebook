@@ -6,24 +6,66 @@ import { selectFilter } from 'redux/selectors';
 
 const Filter = () => {
   const dispatch = useDispatch();
-  const filterWord = useSelector(selectFilter);
 
+  // Используем useSelector для получения текущего значения фильтра из состояния Redux
+  const filterWord = useSelector(selectFilter);
+  console.log(filterWord);
+
+  // Обработчик изменения значения фильтра
   const handleFilterChange = e => {
+    // Получаем новое значение фильтра из события изменения поля ввода
     const newFilterValue = e.target.value;
+    console.log(newFilterValue);
+
+    // Диспетчеризация экшена filterContact для обновления фильтра в состоянии Redux
     dispatch(filterContact(newFilterValue));
   };
 
+  // Возвращаем JSX элемент с полем ввода для фильтрации по имени контакта
   return (
     <input
       type="text"
-      name="nameFilter"
-      value={filterWord}
+      name="filterWord"
+      // Паттерн для разрешенных символов в поле ввода
       pattern={"^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"}
+      // Обработчик изменения значения в поле ввода
       onChange={handleFilterChange}
+      // Placeholder для поля ввода
       placeholder="Search by name"
+      // CSS класс для стилизации поля ввода
       className={css.inputText}
     />
   );
 };
 
 export default Filter;
+
+// import React from 'react';
+// import css from 'components/Filter/Filter.module.css';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { filterContact } from 'redux/reducer';
+// import { selectFilter } from 'redux/selectors';
+
+// const Filter = () => {
+//   const dispatch = useDispatch();
+//   const filterWord = useSelector(selectFilter);
+
+//   const handleFilterChange = e => {
+//     const newFilterValue = e.target.value;
+//     dispatch(filterContact(newFilterValue));
+//   };
+
+//   return (
+//     <input
+//       type="text"
+//       name="nameFilter"
+//       value={filterWord}
+//       pattern={"^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"}
+//       onChange={handleFilterChange}
+//       placeholder="Search by name"
+//       className={css.inputText}
+//     />
+//   );
+// };
+
+// export default Filter;
