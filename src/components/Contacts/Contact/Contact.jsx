@@ -12,6 +12,7 @@ const Contact = ({ id, name, number }) => {
   );
 
   const handleDeleteContact = contactId => {
+    console.log('Deleting contact with ID:', contactId);
     dispatch(deleteContact(contactId));
   };
 
@@ -19,7 +20,7 @@ const Contact = ({ id, name, number }) => {
     dispatch(toggleFavourite(id));
   };
 
-  const isFavouriteSelected = isFavourite ? '#ffffff' : 'none';
+  const isFavouriteSelected = isFavourite ? 'white' : 'none';
 
   return (
     <li key={id} className={css.item}>

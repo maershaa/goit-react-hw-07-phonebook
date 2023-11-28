@@ -29,6 +29,7 @@ const ContactForm = () => {
       id: nanoid(),
       name,
       number,
+      favorite: false,
     };
 
     const normalizeName = newContact.name.toLowerCase();

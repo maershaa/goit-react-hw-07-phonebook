@@ -20,16 +20,28 @@ export const fetchContacts = createAsyncThunk(
   }
 );
 
+// Добавление нового контакта (метод POST)
 export const fetchAddContact = createAsyncThunk(
   'contacts/addContact',
-  // Використовуємо символ підкреслення як ім'я першого параметра,
-  // тому що в цій операції він нам не потрібен
-  async (contactData, thunkAPI) => {
+  async (newContactData, { rejectWithValue }) => {
     try {
-      const response = await axios.post('/contacts', contactData);
+      const response = await axios.post('/contacts', newContactData);
       return response.data;
-    } catch (e) {
-      return thunkAPI.rejectWithValue(e.message);
+    } catch (error) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+// Удаление контакта (метод DELETE)
+export const fetchDeleteContact = createAsyncThunk(
+  'contacts/deleteContact',
+  async (id, { rejectWithValue }) => {
+    try {
+      await axios.delete(`/contacts/${id}`);
+      return id; // Возвращаем id удаленного контакта
+    } catch (error) {
+      return rejectWithValue(error.message);
     }
   }
 );

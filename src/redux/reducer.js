@@ -1,5 +1,9 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { fetchContacts, fetchAddContact } from 'redux/operation';
+import {
+  fetchContacts,
+  fetchAddContact,
+  fetchDeleteContact,
+} from 'redux/operation';
 
 // ! ПРИМЕР Redux Toolkit
 // Начальное состояние хранилища
@@ -28,6 +32,7 @@ const contactsSlice = createSlice({
       // state.contacts.items = [...state.contacts.items, action.payload];
     },
     deleteContact(state, action) {
+      console.log('Action payload (contact ID to delete):', action.payload);
       // Удаление контакта из массива items по id
       state.contacts.items = state.contacts.items.filter(
         contact => contact.id !== action.payload
@@ -38,19 +43,17 @@ const contactsSlice = createSlice({
       state.contacts.filterWord = action.payload;
     },
     toggleFavourite(state, action) {
-      // Переключение флага избранного для контакта
       const contactId = action.payload;
-      const existingContact = state.contacts.items.find(
+      const foundContact = state.contacts.items.find(
         contact => contact.id === contactId
       );
-
-      if (existingContact) {
-        // Изменение флага isFavourite контакта
-        existingContact.isFavourite = !existingContact.isFavourite;
-
-        // Добавление или удаление контакта из массива избранных контактов
-        if (existingContact.isFavourite) {
-          state.contacts.favouriteContacts.push(existingContact);
+      if (foundContact) {
+        console.log('Found contact', foundContact);
+        // Изменение флага isFavourite контакта на противоположное значение
+        foundContact.isFavourite = true;
+        // Обновление массива избранных контактов в зависимости от значения isFavourite
+        if (foundContact.isFavourite) {
+          state.contacts.favouriteContacts.push(foundContact);
           console.log(
             'Added to favouriteContacts:',
             state.contacts.favouriteContacts
@@ -74,14 +77,23 @@ const contactsSlice = createSlice({
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.items = action.payload;
+        state.contacts.error = null;
       })
       .addCase(fetchAddContact.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.items = action.payload;
       })
+      .addCase(fetchDeleteContact.fulfilled, (state, action) => {
+        state.contacts.isLoading = false;
+        state.contacts.items = action.payload;
+      })
       // Обработка событий ожидания fetchContacts и fetchAddContact
       .addMatcher(
-        isAnyOf(fetchContacts.pending, fetchAddContact.pending),
+        isAnyOf(
+          fetchContacts.pending,
+          fetchAddContact.pending,
+          fetchDeleteContact.pending
+        ),
         state => {
           state.contacts.isLoading = true;
           state.contacts.error = null;
@@ -89,7 +101,11 @@ const contactsSlice = createSlice({
       )
       // Обработка отклоненных запросов fetchContacts и fetchAddContact
       .addMatcher(
-        isAnyOf(fetchContacts.rejected, fetchAddContact.rejected),
+        isAnyOf(
+          fetchContacts.rejected,
+          fetchAddContact.rejected,
+          fetchDeleteContact.rejected
+        ),
         (state, { payload }) => {
           state.isLoading = false;
           state.error = payload;

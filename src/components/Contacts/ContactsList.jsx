@@ -22,9 +22,18 @@ export const ContactsList = () => {
 
   const filteredContacts = useSelector(selectFilteredContacts);
 
+  // Получаем значение, указывающее на то, были ли контакты уже загружены из состояния Redux
+  const contactsLoaded = useSelector(
+    state => state.contactsStore.contacts.items.length > 0
+  );
+
   useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
+    // Проверяем, есть ли контакты в хранилище Redux и были ли они уже загружены
+    if (!contactsLoaded) {
+      // Если контактов нет или они еще не были загружены, отправляем запрос на загрузку
+      dispatch(fetchContacts());
+    }
+  }, [dispatch, contactsLoaded]);
 
   // Функция для фильтрации контактов в соответствии с текущим фильтром +useMemo
   //!Вместонее используем сложенный селектор в selectors.js с именем selectFilteredContacts при попощи createSelector
