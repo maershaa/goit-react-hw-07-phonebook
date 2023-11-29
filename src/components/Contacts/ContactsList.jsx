@@ -16,12 +16,9 @@ import Loader from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
-
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
-
   const filteredContacts = useSelector(selectFilteredContacts);
-
   // Получаем значение, указывающее на то, были ли контакты уже загружены из состояния Redux
   const contactsLoaded = useSelector(
     state => state.contactsStore.contacts.items.length > 0

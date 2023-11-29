@@ -21,27 +21,28 @@ export const fetchContacts = createAsyncThunk(
 );
 
 // Добавление нового контакта (метод POST)
-export const fetchAddContact = createAsyncThunk(
+export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (newContactData, { rejectWithValue }) => {
+  async (inputText, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts', newContactData);
-      return response.data;
+      const response = await axios.post('/contacts', { inputText });
+      console.log(response.data.inputText);
+      return response.data.inputText;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
 // Удаление контакта (метод DELETE)
-export const fetchDeleteContact = createAsyncThunk(
+export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
-  async (id, { rejectWithValue }) => {
+  async (contactId, thunkAPI) => {
     try {
-      await axios.delete(`/contacts/${id}`);
-      return id; // Возвращаем id удаленного контакта
+      const response = await axios.delete(`/contacts/${contactId}`);
+      return response.data;
     } catch (error) {
-      return rejectWithValue(error.message);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

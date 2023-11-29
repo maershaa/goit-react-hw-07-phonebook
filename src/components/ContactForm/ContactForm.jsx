@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import { nanoid } from 'nanoid';
 import css from 'components/ContactForm/ContactForm.module.css';
-import { addContact } from 'redux/reducer';
+import { addContact } from 'redux/operation';
 import { useDispatch, useSelector } from 'react-redux';
 import { selectContacts } from 'redux/selectors';
 
 const ContactForm = () => {
-  // Используем useState для управления состоянием полей name и number
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
-
-  // Получение функции dispatch для отправки действий в Redux Store
   const dispatch = useDispatch();
-
-  // Получение контактов и фильтра из хранилища Redux
   const contacts = useSelector(selectContacts);
-
-  // Создаем уникальный идентификатор для элемента input
   const loginInputIdName = `name-${nanoid()}`;
   const loginInputIdNumber = `number-${nanoid()}`;
 
@@ -41,10 +34,7 @@ const ContactForm = () => {
       return;
     }
 
-    // Отправка действия для добавления контакта с помощью Redux Toolkit
     dispatch(addContact(newContact));
-
-    // Сбрасываем значения полей после добавления контакта
     reset();
   };
 

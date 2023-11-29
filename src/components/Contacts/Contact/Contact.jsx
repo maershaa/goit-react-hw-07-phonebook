@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import css from 'components/Contacts/Contact/Contact.module.css';
 import { toggleFavourite } from 'redux/actions';
-import { deleteContact } from 'redux/reducer';
+import { deleteContact } from 'redux/operation';
 import { selectContactsIsFavourite } from 'redux/selectors';
 
 const Contact = ({ id, name, number }) => {
@@ -11,9 +11,9 @@ const Contact = ({ id, name, number }) => {
     selectContactsIsFavourite(state, id)
   );
 
-  const handleDeleteContact = contactId => {
-    console.log('Deleting contact with ID:', contactId);
-    dispatch(deleteContact(contactId));
+  const handleDeleteContact = () => {
+    console.log('Deleting contact with ID:', id);
+    dispatch(deleteContact(id));
   };
 
   const handleToggleFavourite = () => {
