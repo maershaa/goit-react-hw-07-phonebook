@@ -7,9 +7,6 @@ import {
   selectContacts,
   selectContactsIsLoading,
   selectContactsError,
-  // selectContactsIsFavourite,
-  // selectContactsFavouriteContacts,
-  // selectFilter,
   selectFilteredContacts,
 } from 'redux/selectors';
 import Loader from 'components/Loader/Loader';
@@ -20,27 +17,24 @@ export const ContactsList = () => {
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
   const filteredContacts = useSelector(selectFilteredContacts);
+  const contacts = useSelector(selectContacts); // Получение списка контактов из состояния Redux
+  const contactsLoaded = contacts.length > 0; // Проверка, загружены ли контакты из состояния Redux
 
-  const contacts = useSelector(selectContacts);
-
-  // Получаем значение, указывающее на то, были ли контакты уже загружены из состояния Redux
-  const contactsLoaded = useSelector(
-    state => state.contactsStore.contacts.items.length > 0
-  );
-
+  // Проверяем, нужно ли загрузить контакты при первом рендере
   useEffect(() => {
-    // Проверяем, есть ли контакты в хранилище Redux и были ли они уже загружены
     if (!contactsLoaded) {
-      // Если контактов нет или они еще не были загружены, отправляем запрос на загрузку
+      // Если контакты еще не загружены, отправляем запрос на их получение
       dispatch(fetchContacts());
     }
   }, [dispatch, contactsLoaded]);
 
+  // Сортировка отфильтрованных контактов по статусу избранного
   const sortedProducts = [...filteredContacts].sort(
     (a, b) => b.isFavourite - a.isFavourite
   );
   console.log('sortedProducts', sortedProducts);
 
+  // Проверяем, что contacts является массивом и имеет длину больше нуля, чтобы убедиться, что в хранилище есть контакты
   const showContacts = Array.isArray(contacts) && contacts.length > 0;
 
   return (
