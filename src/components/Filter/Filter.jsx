@@ -9,13 +9,13 @@ const Filter = () => {
 
   // Используем useSelector для получения текущего значения фильтра из состояния Redux
   const filterWord = useSelector(selectFilter);
-  console.log(filterWord);
+  console.log('filterWord', filterWord);
 
   // Обработчик изменения значения фильтра
   const handleFilterChange = e => {
     // Получаем новое значение фильтра из события изменения поля ввода
     const newFilterValue = e.target.value;
-    console.log(newFilterValue);
+    console.log('newFilterValue', newFilterValue);
 
     // Диспетчеризация экшена filterContact для обновления фильтра в состоянии Redux
     dispatch(setFilterWord(newFilterValue));
@@ -25,7 +25,7 @@ const Filter = () => {
   return (
     <input
       type="text"
-      name="filterWord"
+      name={filterWord}
       // Паттерн для разрешенных символов в поле ввода
       pattern={"^[a-zA-Zа-яА-Я]+(([' \\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"}
       // Обработчик изменения значения в поле ввода

@@ -39,7 +39,8 @@ export const ContactsList = () => {
   const sortedProducts = [...filteredContacts].sort(
     (a, b) => b.isFavourite - a.isFavourite
   );
-  console.log(sortedProducts);
+  console.log('sortedProducts', sortedProducts);
+
   const showContacts = Array.isArray(contacts) && contacts.length > 0;
 
   return (
@@ -53,7 +54,7 @@ export const ContactsList = () => {
       {isLoading && <Loader />}
       <ul className={css.contactsList}>
         {showContacts &&
-          contacts.map(contact => (
+          sortedProducts.map(contact => (
             <Contact
               key={contact.id}
               id={contact.id}
