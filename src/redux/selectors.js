@@ -13,20 +13,22 @@ export const selectFilter = state => state.contactsStore.filterWord;
 
 // Создание селектора для фильтрации контактов
 export const selectFilteredContacts = createSelector(
-  // Зависимости для селектора
+  // Зависимости для селектора: selectContacts - селектор контактов, selectFilter - селектор фильтра
   [selectContacts, selectFilter],
+  // Функция, которая принимает данные из селекторов и применяет фильтрацию
   (contacts, filterWord) => {
-    console.log('Input contacts:', contacts);
-    console.log('Input filterWord:', filterWord);
+    // console.log('Input contacts:', contacts);
+    // console.log('Input filterWord:', filterWord);
 
+    // Приводим значение фильтра к нижнему регистру и удаляем лишние пробелы
     const formattedFilterWord = filterWord.toLowerCase().trim();
 
-    // Фильтрация контактов по имени или номеру телефона на основе filterWord
-
+    // Фильтрация контактов:
+    // Возвращаем только те контакты, чьи имена или номера телефонов содержат значение форматированного фильтра
     return contacts.filter(
       contact =>
-        contact.name.toLowerCase().includes(formattedFilterWord) ||
-        contact.phone.toString().includes(formattedFilterWord)
+        contact.name.toLowerCase().includes(formattedFilterWord) || // Проверка наличия форматированного фильтра в имени контакта
+        contact.phone.toString().includes(formattedFilterWord) // Проверка наличия форматированного фильтра в номере телефона контакта
     );
   }
 );
