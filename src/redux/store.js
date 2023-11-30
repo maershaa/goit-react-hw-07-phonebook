@@ -2,18 +2,17 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { combineReducers } from 'redux';
 import { contactsReducer } from 'redux/reducer';
+
 // import { persistStore, persistReducer } from 'redux-persist';
 
 // !состояние не будет сохраняться между перезагрузками страницы.
-// Объединяем редукторы
 const rootReducer = combineReducers({
-  contactsStore: contactsReducer, // Объединяем редуктор контактов под ключом "contactsStore"
-  devTools: process.env.NODE_ENV !== 'production', // Включение DevTools только в development-среде
+  contactsStore: contactsReducer,
 });
 
-// Создаем хранилище с помощью configureStore и передаем ему корневой редуктор
 export const store = configureStore({
-  reducer: rootReducer, // Передаем корневой редуктор как основу для хранилища
+  reducer: rootReducer, // Передача корневого редюсера
+  devTools: process.env.NODE_ENV !== 'production', // Включение DevTools только в development-среде
 });
 
 // !сохранение состояния в локальном хранилище припомощи redux-persist

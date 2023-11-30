@@ -1,5 +1,10 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { fetchContacts, addContact, deleteContact } from 'redux/operation';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+  toggleIsFavourite,
+} from 'redux/operation';
 
 // ! ПРИМЕР Redux Toolkit
 /// Начальное состояние хранилища
@@ -18,37 +23,52 @@ const initialState = {
 const contactsSlice = createSlice({
   name: 'contacts',
   initialState,
+  reducers: {
+    setFilterWord(state, action) {
+      state.filterWord = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
-      // Обработка успешного завершения fetchContacts и fetchAddContact
+      // Обработка успешного завершения
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         // Добавляем полученные контакты к текущему списку
-        state.contacts.items.push(...action.payload);
+        //! не работает  контакты тнутся тогда многократно   state.contacts.items.push(...action.payload);
+        state.contacts.items = action.payload;
         state.contacts.error = null;
       })
       .addCase(addContact.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
-        // Заменяем все контакты на полученный список контактов
-        state.contacts.items = action.payload;
+        state.contacts.items = [...state.contacts.items, action.payload];
       })
       .addCase(deleteContact.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.error = null;
-        // Удаляем контакт из списка по его id
-        const index = state.contacts.items.findIndex(
-          contact => contact.id === action.payload
+        state.contacts.items = state.contacts.items.filter(
+          item => item.id !== action.payload.id
         );
-        if (index !== -1) {
-          state.contacts.items.splice(index, 1);
-        }
+        // const index = state.contacts.items.findIndex(
+        //   contact => [contact.id] === [action.payload.id]
+        // );
+        // state.contacts.items.splice(index, 1);
       })
+      .addCase(toggleIsFavourite.fulfilled, (state, action) => {
+        state.contacts.isLoading = false;
+        state.contacts.error = null;
+        const index = state.contacts.items.findIndex(
+          contact => contact.id === action.payload.id
+        );
+        state.contacts.items.splice(index, 1, action.payload);
+      })
+
       // Обработка событий ожидания fetchContacts и fetchAddContact
       .addMatcher(
         isAnyOf(
           fetchContacts.pending,
           addContact.pending,
-          deleteContact.pending
+          deleteContact.pending,
+          toggleIsFavourite.pending
         ),
         state => {
           state.contacts.isLoading = true;
@@ -60,7 +80,8 @@ const contactsSlice = createSlice({
         isAnyOf(
           fetchContacts.rejected,
           addContact.rejected,
-          deleteContact.rejected
+          deleteContact.rejected,
+          toggleIsFavourite.rejected
         ),
         (state, { payload }) => {
           state.contacts.isLoading = false;
@@ -69,7 +90,7 @@ const contactsSlice = createSlice({
       );
   },
 });
+export const { setFilterWord } = contactsSlice.actions;
+
 // Экспорт экшенов и редьюсера
-// !Это потом вроде нужно удалить будет
-export const { filterContact, toggleFavourite } = contactsSlice.actions;
 export const contactsReducer = contactsSlice.reducer;

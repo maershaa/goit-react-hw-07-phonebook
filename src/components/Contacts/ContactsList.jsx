@@ -4,7 +4,7 @@ import Contact from 'components/Contacts/Contact/Contact';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from 'redux/operation';
 import {
-  // selectContacts,
+  selectContacts,
   selectContactsIsLoading,
   selectContactsError,
   // selectContactsIsFavourite,
@@ -16,9 +16,13 @@ import Loader from 'components/Loader/Loader';
 
 export const ContactsList = () => {
   const dispatch = useDispatch();
+
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
   const filteredContacts = useSelector(selectFilteredContacts);
+
+  const contacts = useSelector(selectContacts);
+
   // Получаем значение, указывающее на то, были ли контакты уже загружены из состояния Redux
   const contactsLoaded = useSelector(
     state => state.contactsStore.contacts.items.length > 0
@@ -32,22 +36,11 @@ export const ContactsList = () => {
     }
   }, [dispatch, contactsLoaded]);
 
-  // Функция для фильтрации контактов в соответствии с текущим фильтром +useMemo
-  //!Вместонее используем сложенный селектор в selectors.js с именем selectFilteredContacts при попощи createSelector
-  // !useMemo = createSelector
-  // const getFilteredContacts = useMemo(() => {
-  //   return () => {
-  //     console.log(filterWord);
-  //     if (!contacts || !contacts.length) {
-  //       return [];
-  //     }
-  //     return contacts.filter(
-  //       ({ name, number }) =>
-  //         name.toLowerCase().includes(filterWord.toLowerCase().trim()) ||
-  //         number.toString().includes(filterWord.toLowerCase().trim())
-  //     );
-  //   };
-  // }, [contacts, filterWord]);
+  const sortedProducts = [...filteredContacts].sort(
+    (a, b) => b.isFavourite - a.isFavourite
+  );
+  console.log(sortedProducts);
+  const showContacts = Array.isArray(contacts) && contacts.length > 0;
 
   return (
     <div className={css.contactsContainer}>
@@ -59,14 +52,15 @@ export const ContactsList = () => {
 
       {isLoading && <Loader />}
       <ul className={css.contactsList}>
-        {filteredContacts.map(contact => (
-          <Contact
-            key={contact.id}
-            id={contact.id}
-            name={contact.name}
-            number={contact.phone}
-          />
-        ))}
+        {showContacts &&
+          contacts.map(contact => (
+            <Contact
+              key={contact.id}
+              id={contact.id}
+              name={contact.name}
+              number={contact.phone}
+            />
+          ))}
       </ul>
     </div>
   );
