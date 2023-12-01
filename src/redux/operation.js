@@ -23,12 +23,11 @@ export const fetchContacts = createAsyncThunk(
 // Добавление нового контакта (метод POST)
 export const addContact = createAsyncThunk(
   'contacts/addContact',
-  async (inputText, thunkAPI) => {
+  async ({ name, email }, thunkAPI) => {
     try {
-      const response = await axios.post('/contacts', { inputText });
-      console.log('addContact', response.data.inputText);
-      // !Возвращаем данные добавленного контакта (response.data=новый контакт сгенерированный случайным образом  не наш контакт  потому обращаемся к inputText)
-      return response.data.inputText;
+      const response = await axios.post('/contacts', { name, email });
+      console.log('addContact', response.data);
+      return response.data;
     } catch (error) {
       // В случае ошибки возвращаем отклоненное значение с текстом ошибки
       return thunkAPI.rejectWithValue(error.message);

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { nanoid } from 'nanoid';
 import css from 'components/ContactForm/ContactForm.module.css';
 import { addContact } from 'redux/operation';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,39 +9,33 @@ const ContactForm = () => {
   const [number, setNumber] = useState('');
   const dispatch = useDispatch();
   const contacts = useSelector(selectContacts);
-  const loginInputIdName = `name-${nanoid()}`;
-  const loginInputIdNumber = `number-${nanoid()}`;
 
   // Обработчик отправки формы
   const handleSubmit = evt => {
     evt.preventDefault();
 
-    // Создаем объект контакта с уникальным идентификатором
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-      favorite: false,
-    };
+    // Приводим введенное имя к нижнему регистру для сравнения
+    const normalizeName = name.toLowerCase();
 
-    const normalizeName = newContact.name.toLowerCase();
-    const isDuplicate =
-      contacts &&
-      contacts.some(contact => contact.name.toLowerCase() === normalizeName);
+    // Проверяем, есть ли контакт с таким именем в контактах
+    const isDuplicate = contacts.some(
+      contact => contact.name.toLowerCase() === normalizeName
+    );
+
+    // Если найден дубликат, выводим сообщение об этом
     if (isDuplicate) {
-      alert(`${newContact.name} уже есть в контактах`);
+      alert(`${name} уже есть в контактах`);
       return;
     }
 
-    dispatch(addContact(newContact));
+    // Отправляем новый контакт в Redux хранилище
+    dispatch(addContact({ name, number }));
     reset();
   };
 
   // Обработчик изменения значений полей input
   const handleChange = evt => {
     const { name, value } = evt.target;
-
-    // Проверяем имя поля и обновляем соответствующее состояние
     if (name === 'name') {
       setName(value);
     } else if (name === 'number') {
@@ -58,7 +51,7 @@ const ContactForm = () => {
 
   return (
     <form onSubmit={handleSubmit} className={css.form}>
-      <label htmlFor={loginInputIdName} className={css.formLabel}>
+      <label htmlFor="name" className={css.formLabel}>
         <input
           type="text"
           name="name"
@@ -69,13 +62,13 @@ const ContactForm = () => {
           required
           value={name}
           onChange={handleChange}
-          id={loginInputIdName}
+          id={name}
           className={css.inputText}
           placeholder="Name"
         />
       </label>
 
-      <label htmlFor={loginInputIdNumber} className={css.formLabel}>
+      <label htmlFor="number" className={css.formLabel}>
         <input
           type="tel"
           name="number"
@@ -84,7 +77,7 @@ const ContactForm = () => {
           required
           value={number}
           onChange={handleChange}
-          id={loginInputIdNumber}
+          id={number}
           className={css.inputText}
           placeholder="Number"
         />

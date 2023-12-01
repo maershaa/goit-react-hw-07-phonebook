@@ -13,7 +13,7 @@ const Contact = ({ id, name, number }) => {
   // console.log('isFavourite in Contact', isFavourite);
 
   // Состояние для установки стиля избранной кнопки
-  const [isFavouriteSelected, setIsFavouriteSelected] = useState('none');
+  const [iconFill, setIconFill] = useState('none');
 
   // Обработчик удаления контакта
   const handleDeleteContact = () => {
@@ -25,11 +25,10 @@ const Contact = ({ id, name, number }) => {
   const handleToggleFavourite = () => {
     dispatch(toggleIsFavourite(id));
   };
-
   // Использование useEffect для изменения стиля кнопки в зависимости от значения isFavourite
   useEffect(() => {
-    setIsFavouriteSelected(isFavourite ? 'white' : 'none');
-    console.log('isFavouriteSelected', !isFavourite);
+    setIconFill(isFavourite ? 'white' : 'none');
+    console.log('setIconFill', !isFavourite);
   }, [isFavourite]);
 
   return (
@@ -55,7 +54,7 @@ const Contact = ({ id, name, number }) => {
             strokeWidth="1"
             strokeLinecap="square"
             strokeLinejoin="miter"
-            fill={isFavouriteSelected}
+            fill={iconFill}
             color="#ffffff"
           >
             <title id="favouriteIconTitle">Favourite</title>

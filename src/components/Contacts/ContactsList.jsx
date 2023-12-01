@@ -18,21 +18,17 @@ export const ContactsList = () => {
   const error = useSelector(selectContactsError);
   const filteredContacts = useSelector(selectFilteredContacts);
   const contacts = useSelector(selectContacts); // Получение списка контактов из состояния Redux
-  const contactsLoaded = contacts.length > 0; // Проверка, загружены ли контакты из состояния Redux
 
-  // Проверяем, нужно ли загрузить контакты при первом рендере
+  // !Как сделать так чтобы если списко контатков не изменился, то и запрос по 100 раз делать не нужно
   useEffect(() => {
-    if (!contactsLoaded) {
-      // Если контакты еще не загружены, отправляем запрос на их получение
-      dispatch(fetchContacts());
-    }
-  }, [dispatch, contactsLoaded]);
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   // Сортировка отфильтрованных контактов по статусу избранного
-  const sortedProducts = [...filteredContacts].sort(
+  const sortedContacts = [...filteredContacts].sort(
     (a, b) => b.isFavourite - a.isFavourite
   );
-  console.log('sortedProducts', sortedProducts);
+  console.log('sortedProducts', sortedContacts);
 
   // Проверяем, что contacts является массивом и имеет длину больше нуля, чтобы убедиться, что в хранилище есть контакты
   const showContacts = Array.isArray(contacts) && contacts.length > 0;
@@ -48,7 +44,7 @@ export const ContactsList = () => {
       {isLoading && <Loader />}
       <ul className={css.contactsList}>
         {showContacts &&
-          sortedProducts.map(contact => (
+          sortedContacts.map(contact => (
             <Contact
               key={contact.id}
               id={contact.id}
