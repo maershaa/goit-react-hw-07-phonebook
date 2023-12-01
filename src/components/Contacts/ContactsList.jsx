@@ -1,8 +1,7 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import css from 'components/Contacts/Contacts.module.css';
 import Contact from 'components/Contacts/Contact/Contact';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchContacts } from 'redux/operation';
+import { useSelector } from 'react-redux';
 import {
   selectContacts,
   selectContactsIsLoading,
@@ -12,17 +11,10 @@ import {
 import Loader from 'components/Loader/Loader';
 
 export const ContactsList = () => {
-  const dispatch = useDispatch();
-
   const isLoading = useSelector(selectContactsIsLoading);
   const error = useSelector(selectContactsError);
   const filteredContacts = useSelector(selectFilteredContacts);
   const contacts = useSelector(selectContacts); // Получение списка контактов из состояния Redux
-
-  // !Как сделать так чтобы если списко контатков не изменился, то и запрос по 100 раз делать не нужно
-  useEffect(() => {
-    dispatch(fetchContacts());
-  }, [dispatch]);
 
   // Сортировка отфильтрованных контактов по статусу избранного
   const sortedContacts = [...filteredContacts].sort(

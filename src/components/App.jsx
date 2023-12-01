@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { fetchContacts } from 'redux/operation';
 import ContactForm from './ContactForm/ContactForm';
 import ContactList from './Contacts/ContactsList';
 import Filter from './Filter/Filter';
@@ -7,11 +9,17 @@ import css from './App.module.css';
 const App = () => {
   // Локальное состояние для отслеживания активной вкладки
   const [activeTab, setActiveTab] = useState('form');
+  const dispatch = useDispatch();
 
   // Функция для изменения активной вкладки
   const handleTabChange = tab => {
     setActiveTab(tab);
   };
+
+  // !размещено тут чтобы если списко контатков не изменился, то и запрос по 100 раз делать не нужно
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
 
   return (
     <div className={css.container}>
