@@ -1,11 +1,15 @@
 import { createSelector } from '@reduxjs/toolkit';
 
 export const selectContacts = state => state.contactsStore.contacts.items;
+
 export const selectContactsIsLoading = state =>
   state.contactsStore.contacts.isLoading;
+
 export const selectContactsError = state => state.contactsStore.contacts.error;
+
 export const selectContactsIsFavourite = state =>
   state.contactsStore.contacts.isFavourite;
+
 export const selectContactsFavouriteContacts = state =>
   state.contactsStore.contacts.favouriteContacts;
 

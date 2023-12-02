@@ -34,7 +34,6 @@ const contactsSlice = createSlice({
       .addCase(fetchContacts.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         // Добавляем полученные контакты к текущему списку
-        //! не работает  контакты тнутся тогда многократно   state.contacts.items.push(...action.payload);
         state.contacts.items = action.payload;
         state.contacts.error = null;
       })
@@ -56,10 +55,16 @@ const contactsSlice = createSlice({
       .addCase(toggleIsFavourite.fulfilled, (state, action) => {
         state.contacts.isLoading = false;
         state.contacts.error = null;
-        const index = state.contacts.items.findIndex(
-          contact => contact.id === action.payload.id
-        );
-        state.contacts.items.splice(index, 1, action.payload);
+        // Обновление isFavourite элемента по его id
+        state.contacts.items = state.contacts.items.map(contact => {
+          if (contact.id === action.payload.id) {
+            return {
+              ...contact,
+              isFavourite: !contact.isFavourite, // Переключение isFavourite
+            };
+          }
+          return contact;
+        });
       })
 
       // Обработка событий ожидания fetchContacts и fetchAddContact

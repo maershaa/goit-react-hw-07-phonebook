@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import css from 'components/Contacts/Contact/Contact.module.css';
-// import { toggleFavourite } from 'redux/actions';
 import { deleteContact, toggleIsFavourite } from 'redux/operation';
 import { selectContactsIsFavourite } from 'redux/selectors';
 
@@ -10,26 +9,27 @@ const Contact = ({ id, name, number }) => {
 
   // Получение значения из хранилища о том, является ли контакт избранным
   const isFavourite = useSelector(selectContactsIsFavourite);
-  // console.log('isFavourite in Contact', isFavourite);
+  // !console.log('isFavourite in Contact:', isFavourite);
 
   // Состояние для установки стиля избранной кнопки
   const [iconFill, setIconFill] = useState('none');
+
+  // Обработчик переключения статуса избранного контакта
+  const handleToggleFavourite = () => {
+    dispatch(toggleIsFavourite(id));
+    // !console.log('New isFavourite value:', isFavourite);
+  };
+  // Использование useEffect для изменения стиля кнопки в зависимости от значения isFavourite
+  useEffect(() => {
+    setIconFill(isFavourite ? 'white' : 'none');
+    console.log('setIconFill', isFavourite);
+  }, [isFavourite]);
 
   // Обработчик удаления контакта
   const handleDeleteContact = () => {
     console.log('Deleting contact with ID:', id);
     dispatch(deleteContact(id));
   };
-
-  // Обработчик переключения статуса избранного контакта
-  const handleToggleFavourite = () => {
-    dispatch(toggleIsFavourite(id));
-  };
-  // Использование useEffect для изменения стиля кнопки в зависимости от значения isFavourite
-  useEffect(() => {
-    setIconFill(isFavourite ? 'white' : 'none');
-    console.log('setIconFill', !isFavourite);
-  }, [isFavourite]);
 
   return (
     <li key={id} className={css.item}>
@@ -55,7 +55,7 @@ const Contact = ({ id, name, number }) => {
             strokeLinecap="square"
             strokeLinejoin="miter"
             fill={iconFill}
-            // color="#ffffff"
+            color="#ffffff"
           >
             <title id="favouriteIconTitle">Favourite</title>
             <path d="M12,21 L10.55,19.7051771 C5.4,15.1242507 2,12.1029973 2,8.39509537 C2,5.37384196 4.42,3 7.5,3 C9.24,3 10.91,3.79455041 12,5.05013624 C13.09,3.79455041 14.76,3 16.5,3 C19.58,3 22,5.37384196 22,8.39509537 C22,12.1029973 18.6,15.1242507 13.45,19.7149864 L12,21 Z" />

@@ -10,7 +10,7 @@ export const fetchContacts = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await axios.get('/contacts');
-      console.log('fetchContacts', response.data);
+      // !console.log('fetchContacts', response.data);
       // Возвращаем данные при успешном запросе
       return response.data;
     } catch (e) {
@@ -26,7 +26,7 @@ export const addContact = createAsyncThunk(
   async ({ name, email }, thunkAPI) => {
     try {
       const response = await axios.post('/contacts', { name, email });
-      console.log('addContact', response.data);
+      // !console.log('addContact', response.data);
       return response.data;
     } catch (error) {
       // В случае ошибки возвращаем отклоненное значение с текстом ошибки
@@ -41,8 +41,8 @@ export const deleteContact = createAsyncThunk(
   async (contactId, thunkAPI) => {
     try {
       const { data } = await axios.delete(`/contacts/${contactId}`);
-      console.log('deleteContact contactId', contactId);
-      console.log('deleteContact data', data);
+      // !console.log('deleteContact contactId', contactId);
+      // !console.log('deleteContact data', data);
       return data;
     } catch (error) {
       // В случае ошибки возвращаем отклоненное значение с текстом ошибки
@@ -58,17 +58,17 @@ export const toggleIsFavourite = createAsyncThunk(
     try {
       // Получаем информацию о контакте по ID
       const response = await axios.get(`/contacts/${contactId}`);
-      const { isFavourite } = response.data;
+      return response.data;
 
       // Обновляем статус "избранного" на противоположный
-      const updatedResponse = await axios.put(`/contacts/${contactId}`, {
-        isFavourite: !isFavourite,
-      });
+      // const updatedResponse = await axios.put(`/contacts/${contactId}`, {
+      //   isFavourite: !isFavourite,
+      // });
 
-      console.log('toggleIsFavourite', updatedResponse.data);
+      // console.log('toggleIsFavourite operations file', updatedResponse.data);
 
       // Возвращаем обновленные данные контакта
-      return updatedResponse.data;
+      // return updatedResponse.data;
     } catch (error) {
       // В случае ошибки возвращаем отклоненное значение с текстом ошибки
       return thunkAPI.rejectWithValue(error.message);

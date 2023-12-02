@@ -20,7 +20,7 @@ export const ContactsList = () => {
   const sortedContacts = [...filteredContacts].sort(
     (a, b) => b.isFavourite - a.isFavourite
   );
-  console.log('sortedProducts', sortedContacts);
+  // console.log('sortedProducts', sortedContacts);
 
   // Проверяем, что contacts является массивом и имеет длину больше нуля, чтобы убедиться, что в хранилище есть контакты
   const showContacts = Array.isArray(contacts) && contacts.length > 0;
