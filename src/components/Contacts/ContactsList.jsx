@@ -42,6 +42,7 @@ export const ContactsList = () => {
               id={contact.id}
               name={contact.name}
               number={contact.phone}
+              isFavourite={contact.isFavourite}
             />
           ))}
       </ul>

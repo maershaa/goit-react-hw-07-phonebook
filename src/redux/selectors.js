@@ -7,8 +7,15 @@ export const selectContactsIsLoading = state =>
 
 export const selectContactsError = state => state.contactsStore.contacts.error;
 
-export const selectContactsIsFavourite = state =>
-  state.contactsStore.contacts.isFavourite;
+// !Селектор для получения статуса "избранности" контакта по его идентификатору
+export const selectContactsIsFavourite = (state, contactId) => {
+  // Найти контакт в массиве контактов по идентификатору
+  const contact = state.contactsStore.contacts.items.find(
+    contact => contact.id === contactId
+  );
+  // Если контакт с указанным ID найден, вернуть его статус "избранности", иначе вернуть false
+  return contact ? contact.isFavourite : false;
+};
 
 export const selectContactsFavouriteContacts = state =>
   state.contactsStore.contacts.favouriteContacts;

@@ -7,9 +7,12 @@ import { selectContactsIsFavourite } from 'redux/selectors';
 const Contact = ({ id, name, number }) => {
   const dispatch = useDispatch();
 
-  // Получение значения из хранилища о том, является ли контакт избранным
-  const isFavourite = useSelector(selectContactsIsFavourite);
-  // !console.log('isFavourite in Contact:', isFavourite);
+  // Используем хук useSelector из React-Redux для извлечения статуса "избранности" контакта
+  // из состояния Redux. Вызываем selectContactsIsFavourite, передавая ему текущее состояние (state)
+  // и идентификатор контакта (id). Полученное значение сохраняется в переменной isFavourite.
+  const isFavourite = useSelector(state =>
+    selectContactsIsFavourite(state, id)
+  );
 
   // Состояние для установки стиля избранной кнопки
   const [iconFill, setIconFill] = useState('none');
@@ -17,12 +20,11 @@ const Contact = ({ id, name, number }) => {
   // Обработчик переключения статуса избранного контакта
   const handleToggleFavourite = () => {
     dispatch(toggleIsFavourite(id));
-    // !console.log('New isFavourite value:', isFavourite);
   };
   // Использование useEffect для изменения стиля кнопки в зависимости от значения isFavourite
   useEffect(() => {
     setIconFill(isFavourite ? 'white' : 'none');
-    console.log('setIconFill', isFavourite);
+    // console.log('setIconFill', isFavourite);
   }, [isFavourite]);
 
   // Обработчик удаления контакта

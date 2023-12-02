@@ -56,19 +56,16 @@ export const toggleIsFavourite = createAsyncThunk(
   'contacts/toggleIsFavourite',
   async (contactId, thunkAPI) => {
     try {
-      // Получаем информацию о контакте по ID
       const response = await axios.get(`/contacts/${contactId}`);
-      return response.data;
+      const { isFavourite } = response.data;
 
       // Обновляем статус "избранного" на противоположный
-      // const updatedResponse = await axios.put(`/contacts/${contactId}`, {
-      //   isFavourite: !isFavourite,
-      // });
-
-      // console.log('toggleIsFavourite operations file', updatedResponse.data);
-
+      const updatedResponse = await axios.put(`/contacts/${contactId}`, {
+        isFavourite: !isFavourite,
+      });
+      console.log('toggleIsFavourite', updatedResponse.data);
       // Возвращаем обновленные данные контакта
-      // return updatedResponse.data;
+      return updatedResponse.data;
     } catch (error) {
       // В случае ошибки возвращаем отклоненное значение с текстом ошибки
       return thunkAPI.rejectWithValue(error.message);
